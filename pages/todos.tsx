@@ -7,7 +7,7 @@ import { listTodos } from '../src/graphql/queries'
 import { graphqlClient } from './_app'
 import { type Todo } from '../src/API'
 
-export default function List (): React.JSX.Element {
+export default function Todos (): React.JSX.Element {
   const [todos, setTodos] = useState<Todo[] | null | Error>(null)
 
   useEffect(() => {
