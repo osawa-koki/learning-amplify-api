@@ -2,6 +2,8 @@
 
 🍲🍲🍲 AmplifyでAPIを実装してみる！  
 
+![成果物](./docs/images/fruit.gif)  
+
 <https://docs.amplify.aws/javascript/build-a-backend/graphqlapi/>  
 
 ## 準備方法
