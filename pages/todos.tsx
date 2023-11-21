@@ -2,12 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react'
 
 import { Alert, Button, Form, Spinner, Table } from 'react-bootstrap'
 import { IoReload } from 'react-icons/io5'
+import { FaTrashAlt } from 'react-icons/fa'
 
 import { listTodos } from '../src/graphql/queries'
 
 import { graphqlClient } from './_app'
 import { type Todo } from '../src/API'
-import { createTodo } from '../src/graphql/mutations'
+import { createTodo, deleteTodo } from '../src/graphql/mutations'
 
 export default function Todos (): React.JSX.Element {
   const [todos, setTodos] = useState<Todo[] | null | Error>(null)
@@ -40,7 +41,7 @@ export default function Todos (): React.JSX.Element {
     return name === '' || description === ''
   }, [name, description])
 
-  const create = async (): Promise<void> => {
+  const createFn = async (): Promise<void> => {
     setIsLoading(true)
 
     const data = {
@@ -57,6 +58,23 @@ export default function Todos (): React.JSX.Element {
       load()
     } catch (err) {
       console.error('error creating todo:', err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const deleteFn = async (id: string): Promise<void> => {
+    if (!window.confirm('Are you sure you want to delete this todo?')) return
+    setIsLoading(true)
+
+    try {
+      await graphqlClient.graphql({
+        query: deleteTodo,
+        variables: { input: { id } }
+      })
+      load()
+    } catch (err) {
+      console.error('error deleting todo:', err)
     } finally {
       setIsLoading(false)
     }
@@ -105,7 +123,12 @@ export default function Todos (): React.JSX.Element {
             <tr key={todo.id}>
               <td>{todo.name}</td>
               <td>{todo.description}</td>
-              <td></td>
+              <td>
+                {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+                <Button variant='danger' onClick={async () => { await deleteFn(todo.id) }} disabled={isLoading}>
+                  <FaTrashAlt />
+                </Button>
+              </td>
             </tr>
           ))}
           <tr>
@@ -117,7 +140,7 @@ export default function Todos (): React.JSX.Element {
             </td>
             <td>
               {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-              <Button variant='primary' onClick={create} disabled={createButtonDisabled || isLoading}>
+              <Button variant='primary' onClick={createFn} disabled={createButtonDisabled || isLoading}>
                 Create
               </Button>
             </td>
