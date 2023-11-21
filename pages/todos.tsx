@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
 import { Alert, Button, Form, Spinner, Table } from 'react-bootstrap'
+import { IoReload } from 'react-icons/io5'
 
 import { listTodos } from '../src/graphql/queries'
 
@@ -12,6 +13,7 @@ export default function Todos (): React.JSX.Element {
   const [todos, setTodos] = useState<Todo[] | null | Error>(null)
 
   const load = (): void => {
+    setIsLoading(true)
     graphqlClient.graphql({ query: listTodos })
       .then((result) => {
         setTodos(result.data.listTodos.items.sort((a, b) => {
@@ -24,6 +26,9 @@ export default function Todos (): React.JSX.Element {
       .catch((err) => {
         console.error(err)
         setTodos(err)
+      })
+      .finally(() => {
+        setIsLoading(false)
       })
   }
 
@@ -84,6 +89,9 @@ export default function Todos (): React.JSX.Element {
   return (
     <>
       <h1>Todo List</h1>
+      <div>
+        <IoReload onClick={load} role='button' className={`${isLoading ? 'bg-secondary' : ''}`} />
+      </div>
       <Table>
         <thead>
           <tr>
