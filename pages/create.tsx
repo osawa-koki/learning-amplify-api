@@ -1,16 +1,10 @@
 import React, { useMemo, useState } from 'react'
 
-import { Amplify } from 'aws-amplify'
-import { generateClient } from 'aws-amplify/api'
-
 import { Button, Form } from 'react-bootstrap'
-
-import config from '../src/amplifyconfiguration.json'
 
 import { createTodo } from '../src/graphql/mutations'
 
-Amplify.configure(config)
-const client = generateClient()
+import { graphqlClient } from './_app'
 
 export default function Create (): React.JSX.Element {
   const [isLoading, setIsLoading] = useState(false)
@@ -30,7 +24,7 @@ export default function Create (): React.JSX.Element {
       description
     }
     try {
-      await client.graphql({
+      await graphqlClient.graphql({
         query: createTodo,
         variables: { input: data }
       })
