@@ -2,12 +2,20 @@ import React from 'react'
 import { type AppProps } from 'next/app'
 import Head from 'next/head'
 
+import { Amplify } from 'aws-amplify'
+import { generateClient } from 'aws-amplify/api'
+
+import config from '../src/amplifyconfiguration.json'
+
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/style.scss'
 import '../styles/menu.scss'
 
 import setting from '../setting'
 import Layout from '../components/Layout'
+
+Amplify.configure(config)
+export const graphqlClient = generateClient()
 
 export default function MyApp ({ Component, pageProps }: AppProps): React.JSX.Element {
   return (
