@@ -2,6 +2,8 @@
 
 🍲🍲🍲 AmplifyでAPIを実装してみる！  
 
+<https://docs.amplify.aws/javascript/build-a-backend/graphqlapi/>  
+
 ## 準備方法
 
 ```shell

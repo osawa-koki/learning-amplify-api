@@ -39,7 +39,7 @@ export default function Create (): React.JSX.Element {
 
   return (
     <>
-      <h1>Create</h1>
+      <h1>Create Todo</h1>
       <Form.Group className='mt-3'>
         <Form.Label>Name</Form.Label>
         <Form.Control
