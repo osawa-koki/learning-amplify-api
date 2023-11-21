@@ -17,6 +17,9 @@
           "appId": "d5ih063h75yvm",
           "type": "manual"
         }
+      },
+      "api": {
+        "learningamplifyapi": {}
       }
     }
   }
